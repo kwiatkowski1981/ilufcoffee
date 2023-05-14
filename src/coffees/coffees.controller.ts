@@ -1,35 +1,38 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
-  HttpCode,
-  HttpStatus,
   Param,
+  Patch,
   Post,
-  Res,
 } from '@nestjs/common';
 
 @Controller('coffees')
 export class CoffeesController {
-  @Get('')
-  findAll(@Res() response) {
-    response.status(200).send('This action returns all coffees..');
+  @Get()
+  findAll() {
+    return 'This action returns all coffees';
   }
 
   @Get(':id')
-  findOne(@Param('id') id) {
-    return `This action returns the coffee with id ${id}`;
+  findOne(@Param('id') id: string) {
+    return `This action returns #${id} coffee`;
   }
 
   @Post()
-  @HttpCode(HttpStatus.GONE) // 👈
   create(@Body() body) {
-    // JSON for insomnia or whatever
-    // {
-    //   "name": "Old Florida Roast",
-    //   "brand": "Buddy Brew"
-    // }
     return body;
     // return `This action creates a coffee`;
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() body) {
+    return `This action updates #${id} coffee`;
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return `This action removes #${id} coffee`;
   }
 }
