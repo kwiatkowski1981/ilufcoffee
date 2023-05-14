@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Logger,
   Param,
   Patch,
   Post,
@@ -16,6 +17,7 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 
 @Controller('coffees')
 export class CoffeesController {
+  private readonly logger = new Logger(CoffeesController.name); // Logger 👈
   constructor(private readonly coffeesService: CoffeesService) {}
 
   @Get()
@@ -26,12 +28,15 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.coffeesService.findOne(id);
+  findOne(@Param('id') id: number) {
+    this.logger.debug(typeof id);
+    console.log(typeof id);
+    return this.coffeesService.findOne('' + id);
   }
 
   @Post()
   create(@Body() createCoffeeDto: CreateCoffeeDto) {
+    this.logger.debug(createCoffeeDto instanceof CreateCoffeeDto);
     return this.coffeesService.create(createCoffeeDto);
   }
 

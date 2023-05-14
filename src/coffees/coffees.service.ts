@@ -20,7 +20,6 @@ export class CoffeesService {
     // NestJs throw 500 in Browser but Logs:
     // [Nest] 71469  - 05/14/2023, 9:58:21 AM   ERROR [ExceptionsHandler] A random error
     // throw 'A random error';
-
     const coffee = this.coffees.find((item) => item.id === +id);
     if (!coffee) {
       throw new NotFoundException(`Coffee with id ${id} not found`);
