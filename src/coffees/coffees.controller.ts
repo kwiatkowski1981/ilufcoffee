@@ -29,8 +29,6 @@ export class CoffeesController {
 
   @Get(':id')
   findOne(@Param('id') id: number) {
-    this.logger.debug(typeof id);
-    console.log(typeof id);
     return this.coffeesService.findOne(id);
   }
 
