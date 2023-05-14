@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
+    // TypeOrmModule.forRoot(dataSourceOptions),
     CoffeesModule,
     TypeOrmModule.forRoot({
       type: 'postgres', // type of our database
@@ -16,11 +17,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: 'postgres', // username
       password: 'pass123', // user password
       database: 'postgres', // name of our database,
+      // entities: ['dist/**/*.entity{.ts,.js}'],
       autoLoadEntities: true, // models will be loaded automatically
       synchronize: true, // your entities will be synced with the database(recommended: disable in prod)
+      logging: false, // logs will be printed to the console
     }),
   ],
-  controllers: [AppController, CoffeesController],
-  providers: [AppService, CoffeesService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

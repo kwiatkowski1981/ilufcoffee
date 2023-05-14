@@ -31,7 +31,7 @@ export class CoffeesController {
   findOne(@Param('id') id: number) {
     this.logger.debug(typeof id);
     console.log(typeof id);
-    return this.coffeesService.findOne('' + id);
+    return this.coffeesService.findOne(id);
   }
 
   @Post()
@@ -41,13 +41,13 @@ export class CoffeesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCoffeeDto: UpdateCoffeeDto) {
+  update(@Param('id') id: number, @Body() updateCoffeeDto: UpdateCoffeeDto) {
     return this.coffeesService.update(id, updateCoffeeDto);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.coffeesService.remove(id);
   }
 }
