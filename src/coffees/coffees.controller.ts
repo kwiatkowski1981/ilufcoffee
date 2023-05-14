@@ -6,13 +6,16 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 
 @Controller('coffees')
 export class CoffeesController {
   @Get()
-  findAll() {
-    return 'This action returns all coffees';
+  findAll(@Query() paginationQuery) {
+    const { limit, offset } = paginationQuery;
+    // route to hit: localhost:3000/coffees?limit=10&offset=20
+    return `This action returns all coffees. Limit: ${limit}, Offset: ${offset}`;
   }
 
   @Get(':id')
