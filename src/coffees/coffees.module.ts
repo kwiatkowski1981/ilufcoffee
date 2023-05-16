@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
+import { DataSource } from 'typeorm';
 
 // example 1 Value based Provider
 // export class MockCoffeesService {} // 👈
@@ -21,6 +22,11 @@ export class CoffeeBrandsFactory {
     /* do something ... */
     return ['buddy brew', 'nescafe'];
   }
+}
+
+@Injectable()
+export class DbConnection {
+  constructor(private readonly dataSource: DataSource) {}
 }
 
 @Module({
@@ -59,14 +65,33 @@ export class CoffeeBrandsFactory {
   // ],
 
   // example 4  Factory Providers 👈 👈 👈 👈
+  // providers: [
+  //   CoffeesService,
+  //   CoffeeBrandsFactory,
+  //   {
+  //     provide: 'COFFEE_BRANDS',
+  //     useFactory: (brandsFactory: CoffeeBrandsFactory) =>
+  //       brandsFactory.create(),
+  //     inject: [CoffeeBrandsFactory],
+  //   },
+  // ],
+
+  // example 5 Leverage Async Providers 👈 👈 👈 👈
+  //todo nie wiem czy to wogóle dziala prawidlowo bo w przykladzie Kamil uzyl wycofanej metody Connect
+  // a ja zaimplementowalem dataSource z klasy ktora stworzylem powyzej
   providers: [
     CoffeesService,
     CoffeeBrandsFactory,
+    DbConnection,
     {
       provide: 'COFFEE_BRANDS',
-      useFactory: (brandsFactory: CoffeeBrandsFactory) =>
-        brandsFactory.create(), //
-      inject: [CoffeeBrandsFactory], //
+      useFactory: async (dataSource: DataSource): Promise<string[]> => {
+        // const coffeeBrands = await dataSource.query('SELECT * ...');
+        const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
+        console.log('[!] Async Factory');
+        return coffeeBrands;
+      },
+      inject: [DbConnection],
     },
   ],
 
