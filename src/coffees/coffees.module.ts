@@ -24,6 +24,7 @@ export class CoffeeBrandsFactory {
   }
 }
 
+// example 5 Leverage Async Providers 👈 👈 👈 👈 👈
 @Injectable()
 export class DbConnection {
   constructor(private readonly dataSource: DataSource) {}
@@ -38,7 +39,7 @@ export class DbConnection {
   // providers: [
   //   {
   //     provide: CoffeesService,
-  //     useValue: new MockCoffeesService(), // 👈
+  //     useValue: new MockCoffeesService(),
   //   },
   // ],
 
@@ -48,7 +49,7 @@ export class DbConnection {
   //   CoffeeBrandsFactory,
   //   {
   //     provide: 'COFFEE_BRANDS',
-  //     useValue: () => ['buddy brew', 'nescafe'], // 👈 👈
+  //     useValue: () => ['buddy brew', 'nescafe'],
   //   },
   // ],
 
@@ -76,9 +77,28 @@ export class DbConnection {
   //   },
   // ],
 
-  // example 5 Leverage Async Providers 👈 👈 👈 👈
-  //todo nie wiem czy to wogóle dziala prawidlowo bo w przykladzie Kamil uzyl wycofanej metody Connect
-  // a ja zaimplementowalem dataSource z klasy ktora stworzylem powyzej
+  /* example 5 Leverage Async Providers 👈 👈 👈 👈 👈
+  Nie wiem czy to wogóle dziala prawidlowo
+  w przykladzie Kamil uzyl wycofanej metody Connect
+  a ja zaimplementowalem dataSource z klasy ktora stworzylem powyzej
+  */
+  // providers: [
+  //   CoffeesService,
+  //   CoffeeBrandsFactory,
+  //   DbConnection,
+  //   {
+  //     provide: 'COFFEE_BRANDS',
+  //     useFactory: async (dataSource: DataSource): Promise<string[]> => {
+  //       // const coffeeBrands = await dataSource.query('SELECT * ...');
+  //       const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
+  //       console.log('[!] Async Factory');
+  //       return coffeeBrands;
+  //     },
+  //     inject: [DbConnection],
+  //   },
+  // ],
+
+  // example 6 Create a Dynamic Module  👈 👈 👈 👈 👈 👈
   providers: [
     CoffeesService,
     CoffeeBrandsFactory,
