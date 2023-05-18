@@ -1,28 +1,36 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CoffeesController } from './coffees/coffees.controller';
-import { CoffeesService } from './coffees/coffees.service';
 import { CoffeesModule } from './coffees/coffees.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { DatabaseModule } from './database/database.module';
+import { ConfigModule } from '@nestjs/config';
+import * as Joi from 'joi';
 
 @Module({
   imports: [
-    // TypeOrmModule.forRoot(dataSourceOptions),
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      // ignoreEnvFile: true,
+      validationSchema: Joi.object({
+        DB_HOST: Joi.required(),
+        DB_PORT: Joi.number().default(5433),
+      }),
+    }),
     CoffeesModule,
+    // TypeOrmModule.forRoot(dataSourceOptions),
     TypeOrmModule.forRoot({
-      type: 'postgres', // type of our database
-      host: 'localhost', // database host
-      port: 5433, // database host
-      username: 'postgres', // username
-      password: 'pass123', // user password
-      database: 'postgres', // name of our database,
-      // entities: ['dist/**/*.entity{.ts,.js}'],
-      autoLoadEntities: true, // models will be loaded automatically
-      synchronize: true, // your entities will be synced with the database(recommended: disable in prod)
-      logging: false, // logs will be printed to the console
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3456,
+      username: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
+      entities: ['dist/**/*.entity{.ts,.js}'],
+      autoLoadEntities: true,
+      synchronize: true,
+      logging: false,
     }),
     CoffeeRatingModule,
     DatabaseModule,
