@@ -1,4 +1,4 @@
-import { Injectable, Module } from '@nestjs/common';
+import { Injectable, Module, Scope } from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
 import { CoffeesController } from './coffees.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -6,6 +6,7 @@ import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
 import { DataSource } from 'typeorm';
+import { COFFEE_BRANDS } from './coffees.constants';
 
 // example 1 Value based Provider
 // export class MockCoffeesService {} // 👈
@@ -70,7 +71,7 @@ export class DbConnection {
   //   CoffeesService,
   //   CoffeeBrandsFactory,
   //   {
-  //     provide: 'COFFEE_BRANDS',
+  //     provide: COFFEE_BRANDS,
   //     useFactory: (brandsFactory: CoffeeBrandsFactory) =>
   //       brandsFactory.create(),
   //     inject: [CoffeeBrandsFactory],
@@ -87,7 +88,7 @@ export class DbConnection {
   //   CoffeeBrandsFactory,
   //   DbConnection,
   //   {
-  //     provide: 'COFFEE_BRANDS',
+  //     provide: COFFEE_BRANDS,
   //     useFactory: async (dataSource: DataSource): Promise<string[]> => {
   //       // const coffeeBrands = await dataSource.query('SELECT * ...');
   //       const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
@@ -99,19 +100,29 @@ export class DbConnection {
   // ],
 
   // example 6 Create a Dynamic Module  👈 👈 👈 👈 👈 👈
+  // providers: [
+  //   CoffeesService,
+  //   CoffeeBrandsFactory,
+  //   DbConnection,
+  //   {
+  //     provide: COFFEE_BRANDS,
+  //     useFactory: async (dataSource: DataSource): Promise<string[]> => {
+  //       // const coffeeBrands = await dataSource.query('SELECT * ...');
+  //       const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
+  //       console.log('[!] Async Factory');
+  //       return coffeeBrands;
+  //     },
+  //     inject: [DbConnection],
+  //   },
+  // ],
+
+  // example 7 Control Providers Scope  👈 👈 👈 👈 👈 👈
   providers: [
     CoffeesService,
-    CoffeeBrandsFactory,
-    DbConnection,
     {
-      provide: 'COFFEE_BRANDS',
-      useFactory: async (dataSource: DataSource): Promise<string[]> => {
-        // const coffeeBrands = await dataSource.query('SELECT * ...');
-        const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
-        console.log('[!] Async Factory');
-        return coffeeBrands;
-      },
-      inject: [DbConnection],
+      provide: COFFEE_BRANDS,
+      useFactory: () => ['buddy brew', 'nescafe'],
+      scope: Scope.TRANSIENT, // 👈
     },
   ],
 
