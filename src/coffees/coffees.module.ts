@@ -6,8 +6,8 @@ import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
 import { DataSource } from 'typeorm';
-import { COFFEE_BRANDS } from './coffees.constants';
 import { ConfigModule } from '@nestjs/config';
+import { COFFEE_BRANDS } from './coffees.constants';
 import coffeesConfig from './config/coffees.config';
 
 // example 1 Value based Provider
