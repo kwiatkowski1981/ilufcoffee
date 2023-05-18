@@ -11,6 +11,21 @@ import appConfig from '../config/app.config';
 
 @Module({
   imports: [
+    // TypeOrmModule.forRoot(dataSourceOptions),
+    TypeOrmModule.forRootAsync({
+      useFactory: () => ({
+        type: 'postgres',
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3456,
+        username: process.env.DB_USER,
+        password: process.env.DB_PASS,
+        database: process.env.DB_NAME,
+        entities: ['dist/**/*.entity{.ts,.js}'],
+        autoLoadEntities: true,
+        synchronize: true,
+        logging: false,
+      }),
+    }),
     ConfigModule.forRoot({
       load: [appConfig],
       envFilePath: '.env',
@@ -21,19 +36,6 @@ import appConfig from '../config/app.config';
       }),
     }),
     CoffeesModule,
-    // TypeOrmModule.forRoot(dataSourceOptions),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3456,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
-      entities: ['dist/**/*.entity{.ts,.js}'],
-      autoLoadEntities: true,
-      synchronize: true,
-      logging: false,
-    }),
     CoffeeRatingModule,
     DatabaseModule,
   ],
