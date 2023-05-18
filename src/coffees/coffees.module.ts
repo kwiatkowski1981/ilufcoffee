@@ -7,6 +7,7 @@ import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
 import { DataSource } from 'typeorm';
 import { COFFEE_BRANDS } from './coffees.constants';
+import { ConfigModule } from '@nestjs/config';
 
 // example 1 Value based Provider
 // export class MockCoffeesService {} // 👈
@@ -32,7 +33,7 @@ export class DbConnection {
 }
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
+  imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event]), ConfigModule],
   controllers: [CoffeesController],
   // providers: [CoffeesService],
 
