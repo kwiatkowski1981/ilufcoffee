@@ -22,6 +22,7 @@ import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { Request } from 'express';
 import { REQUEST } from '@nestjs/core';
 import { Public } from '../common/decorators/public.decorator';
+import { ParseIntPipe } from '../common/pipes/parse-int/parse-int.pipe';
 
 // @UsePipes(ValidationPipe)
 @Controller('coffees')
@@ -41,13 +42,15 @@ export class CoffeesController {
   async findAll(@Query() paginationQuery: PaginationQueryDto) {
     // const { limit, offset } = paginationQuery;
     // route to hit: localhost:3000/coffees?limit=10&offset=20
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    // await new Promise((resolve) => setTimeout(resolve, 5000));
     return this.coffeesService.findAll(paginationQuery);
   }
 
   @Public()
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    console.log(id);
+    console.log(typeof id);
     return this.coffeesService.findOne(id);
   }
 
