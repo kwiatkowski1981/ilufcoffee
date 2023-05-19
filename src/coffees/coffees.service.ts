@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
@@ -19,15 +19,12 @@ export class CoffeesService {
     private readonly coffeeRepository: Repository<Coffee>,
     @InjectRepository(Flavor)
     private readonly flavorRepository: Repository<Flavor>,
-    private readonly configService: ConfigService, // 👈
-    private readonly dataSource: DataSource,
-    @Inject(COFFEE_BRANDS) coffeeBrands: string[],
-    @Inject(coffeesConfig.KEY)
-    private coffeesConfiguration: ConfigType<typeof coffeesConfig>,
+    private readonly configService: ConfigService,
+    private readonly dataSource: DataSource, // @Inject(COFFEE_BRANDS) coffeeBrands: string[], // @Inject(coffeesConfig.KEY) // private coffeesConfiguration: ConfigType<typeof coffeesConfig>,
   ) {
-    console.log('CoffeesService instantiated');
+    // console.log('CoffeesService instantiated');
     // const databaseHost = this.configService.get('database.host', 'localhost');
-    console.log(coffeesConfiguration.foo);
+    // console.log(coffeesConfiguration.foo);
     /*    const coffeesConfig = this.configService.get('coffees.foo');
     console.log(coffeesConfig);*/
   }
