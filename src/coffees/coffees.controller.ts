@@ -24,8 +24,10 @@ import { REQUEST } from '@nestjs/core';
 import { Public } from '../common/decorators/public.decorator';
 import { ParseIntPipe } from '../common/pipes/parse-int/parse-int.pipe';
 import { Protocol } from '../common/decorators/protocol.decorator';
+import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 // @UsePipes(ValidationPipe)
+@ApiTags('coffees')
 @Controller('coffees')
 export class CoffeesController {
   private readonly logger = new Logger(CoffeesController.name); // Logger 👈
@@ -36,6 +38,7 @@ export class CoffeesController {
     console.log('CoffeesController created');
   }
 
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   // @SetMetadata('isPublic', true)
   @Public()
   @UsePipes(ValidationPipe)
@@ -52,6 +55,7 @@ export class CoffeesController {
     return this.coffeesService.findAll(paginationQuery);
   }
 
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Public()
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {

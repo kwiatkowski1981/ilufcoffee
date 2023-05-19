@@ -13,9 +13,7 @@ export class HttpExceptionFilter<T extends HttpException>
   catch(exception: T, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-
     // response.redirect('/coffees'); // mozna tez przekierowywac
-
     const status = exception.getStatus();
     const exceptionResponse = exception.getResponse();
     const error =
