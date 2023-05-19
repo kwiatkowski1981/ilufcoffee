@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { CoffeesModule } from 'src/coffees/coffees.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CoffeesModule } from '../../src/coffees/coffees.module';
 
 describe('[Feature] Coffees - /coffees', () => {
   let app: INestApplication;
