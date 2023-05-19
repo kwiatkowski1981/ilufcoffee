@@ -49,8 +49,8 @@ export class CoffeesController {
   @Public()
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    console.log(id);
-    console.log(typeof id);
+    // console.log(id);
+    // console.log(typeof id);
     return this.coffeesService.findOne(id);
   }
 
