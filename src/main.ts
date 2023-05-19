@@ -17,7 +17,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalGuards(new ApiKeyGuard());
+  // app.useGlobalGuards(new ApiKeyGuard());
   await app.listen(process.env.APP_PORT);
   console.log(`App running on http://localhost:${process.env.APP_PORT}`);
 }
