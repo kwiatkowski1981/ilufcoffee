@@ -4,7 +4,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './common/filters/http-exception/http-exception.filter';
 import { WrapResponseInterceptor } from './common/interceptors/wrap-response/wrap-response.interceptor';
 import { TimeoutInterceptor } from './common/interceptors/timeout/timeout.interceptor';
-import { LoggingMiddleware } from './common/middleware/logging/logging.middleware';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
@@ -26,7 +25,7 @@ async function bootstrap() {
   );
   // app.useGlobalGuards(new ApiKeyGuard());
 
-  // Swagger documentation
+  // todo swagger documentation
   const options = new DocumentBuilder()
     .setTitle('Iluvcoffee')
     .setDescription('Coffee application')
@@ -35,7 +34,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(process.env.APP_PORT);
-  console.log(`App running on http://localhost:${process.env.APP_PORT}`);
+  await app.listen(3000);
+  // await app.listen(process.env.APP_PORT);
+  console.log(`App running on http://localhost:3000`);
+  // console.log(`App running on http://localhost:${process.env.APP_PORT}`);
 }
 bootstrap();
