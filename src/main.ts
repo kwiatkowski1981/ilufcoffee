@@ -25,7 +25,6 @@ async function bootstrap() {
   );
   // app.useGlobalGuards(new ApiKeyGuard());
 
-  // todo swagger documentation
   const options = new DocumentBuilder()
     .setTitle('Iluvcoffee')
     .setDescription('Coffee application')
